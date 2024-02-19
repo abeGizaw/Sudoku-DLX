@@ -5,7 +5,7 @@ import math
 class Sudoku:
     def __init__(self, filename):
         self.board_size = 0
-        self.partition_zie = 0
+        self.partition_size = 0
         self.vals = []
 
         self.read_file(filename)
@@ -14,17 +14,16 @@ class Sudoku:
     def read_file(self, filename):
         try:
             with open(filename, 'r') as file:
-                self.board_size = int(file.readline())
-                self.partition_zie = int(math.sqrt(self.board_size))
-                print(f'Board size: {self.board_size}x{self.board_size}')
-
+                self.board_size = int(file.readline())  # Read the first line (board size) and convert it to an integer.
+                self.partition_size = int(math.sqrt(self.board_size))  # Calculate the partition size
+                print(f"Board size: {self.board_size}x{self.board_size}")
                 print("Input:")
                 for i, line in enumerate(file):
-                    row = list(map(int, line.split()))
+                    row = list(map(int, line.split())) # Split the line by whitespace, convert each number to an integer, and store it in a list called 'row'.
                     if len(row) != self.board_size:
                         raise RuntimeError("Incorrect Number of inputs.")
-                    print(' '.join(f'{num:3d}' for num in row))
-                    self.vals.append(row)
+                    print(' '.join(f'{num:3d}' for num in row))  # Print each number in the row formatted to be 3 digits wide for alignment.
+                    self.vals.append(row)  # Append the row of numbers to the 'vals' list, which represents the Sudoku board.
 
         except FileNotFoundError:
             print(f'Input file not found: {filename}')
@@ -46,3 +45,10 @@ class Sudoku:
         # Todo Implement algorithm here
         self.board_size += 0
         return True
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python sudoku.py <filename>")
+        sys.exit(1)
+    Sudoku(sys.argv[1])
