@@ -7,6 +7,7 @@ class Sudoku:
         self.board_size = 0
         self.partition_size = 0
         self.vals = []
+        self.empty_cells = []
 
         self.read_file(filename)
         self.solve()
@@ -18,10 +19,13 @@ class Sudoku:
                 self.partition_size = int(math.sqrt(self.board_size))  # Calculate the partition size
                 print(f"Board size: {self.board_size}x{self.board_size}")
                 print("Input:")
-                for i, line in enumerate(file):
+                for i, line in enumerate(file): # Enumerate over each line in the file after the first line, which contains the Sudoku board numbers.
                     row = list(map(int, line.split())) # Split the line by whitespace, convert each number to an integer, and store it in a list called 'row'.
                     if len(row) != self.board_size:
                         raise RuntimeError("Incorrect Number of inputs.")
+                    for j, num in enumerate(row):
+                        if num == 0:
+                            self.empty_cells.append((i, j))
                     print(' '.join(f'{num:3d}' for num in row))  # Print each number in the row formatted to be 3 digits wide for alignment.
                     self.vals.append(row)  # Append the row of numbers to the 'vals' list, which represents the Sudoku board.
 
