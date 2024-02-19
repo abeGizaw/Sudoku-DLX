@@ -22,7 +22,7 @@ class Sudoku:
                 for i, line in enumerate(file): # Enumerate over each line in the file after the first line, which contains the Sudoku board numbers.
                     row = list(map(int, line.split())) # Split the line by whitespace, convert each number to an integer, and store it in a list called 'row'.
                     if len(row) != self.board_size:
-                        raise RuntimeError("Incorrect Number of inputs.")
+                        raise RuntimeError(f"Incorrect Number of inputs.\n {row}")
                     for j, num in enumerate(row):
                         if num == 0:
                             self.empty_cells.append((i, j))
