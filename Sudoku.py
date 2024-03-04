@@ -15,19 +15,19 @@ class Sudoku:
     def read_file(self, filename):
         try:
             with open(filename, 'r') as file:
-                self.board_size = int(file.readline())  # Read the first line (board size) and convert it to an integer.
-                self.partition_size = int(math.sqrt(self.board_size))  # Calculate the partition size
+                self.board_size = int(file.readline())
+                self.partition_size = int(math.sqrt(self.board_size))
                 print(f"Board size: {self.board_size}x{self.board_size}")
                 print("Input:")
-                for i, line in enumerate(file): # Enumerate over each line in the file after the first line, which contains the Sudoku board numbers.
-                    row = list(map(int, line.split())) # Split the line by whitespace, convert each number to an integer, and store it in a list called 'row'.
+                for i, line in enumerate(file): # starts after the first line
+                    row = list(map(int, line.split())) # Split by whitespace, convert to an integer, and store it in a list
                     if len(row) != self.board_size:
                         raise RuntimeError(f"Incorrect Number of inputs.\n {row}")
                     for j, num in enumerate(row):
                         if num == 0:
                             self.empty_cells.append((i, j))
                     print(' '.join(f'{num:3d}' for num in row))  # Print each number in the row formatted to be 3 digits wide for alignment.
-                    self.vals.append(row)  # Append the row of numbers to the 'vals' list, which represents the Sudoku board.
+                    self.vals.append(row)  # represents the Sudoku board.
 
         except FileNotFoundError:
             print(f'Input file not found: {filename}')
