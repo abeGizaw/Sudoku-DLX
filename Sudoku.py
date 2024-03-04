@@ -7,7 +7,6 @@ class Sudoku:
         self.board_size = 0
         self.partition_size = 0
         self.vals = []
-        self.empty_cells = []
 
         self.read_file(filename)
         self.solve()
@@ -25,7 +24,7 @@ class Sudoku:
                         raise RuntimeError(f"Incorrect Number of inputs.\n {row}")
                     for j, num in enumerate(row):
                         if num == 0:
-                            self.empty_cells.append((i, j))
+                            break
                     print(' '.join(f'{num:3d}' for num in row))  # Print each number in the row formatted to be 3 digits wide for alignment.
                     self.vals.append(row)  # represents the Sudoku board.
 
@@ -34,7 +33,6 @@ class Sudoku:
             sys.exit(1)
 
     def solve(self):
-        # TODO:  add solve logic here
         solved = self.backtrack_solve()
 
         if not solved:
@@ -47,7 +45,6 @@ class Sudoku:
 
     def backtrack_solve(self):
         # Todo Implement algorithm here
-        self.board_size += 0
         return True
 
 
