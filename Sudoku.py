@@ -16,7 +16,6 @@ class Sudoku:
         self.partition_size = 0
         self.vals = []
         self.empty_cells = []
-
         self.read_file(filename)
         self.solve()
 
@@ -57,6 +56,7 @@ class Sudoku:
             print(' '.join(f"{num:3d}" for num in row))
         return True
 
+
     def backtrack_solve(self, index = 0):
         if index == len(self.empty_cells):
             return True
@@ -68,19 +68,15 @@ class Sudoku:
                     return True
                 else:
                     self.vals[row][col] = 0
-
-
-
         return False
+
 
     def isValid(self, val, row, col):
         for i in range(self.board_size):
-            if self.vals[row][i] == val or self.vals[i][col] == val:
+            if self.vals[row][i] == val or self.vals[i][col] == val or self.sameSquare(val, row, col):
                 return False
-            if self.sameSquare(val, row, col):
-                return False
-
         return True
+
 
     def sameSquare(self, val, row, col):
         rowStart = row - (row % self.partition_size)
@@ -89,8 +85,9 @@ class Sudoku:
             for c in range(colStart, colStart + self.partition_size):
                 if self.vals[r][c] == val:
                     return True
-
         return False
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python Sudoku.py <filename>")
