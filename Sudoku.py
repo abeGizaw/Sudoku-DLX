@@ -2,9 +2,17 @@ import sys
 import math
 
 
+def writeSolutionToFile(filename, sol):
+    with open(filename, 'w') as file:
+        for row in sol:
+            file.write(' '.join(f"{num:3d}" for num in row))
+            file.write('\n')
+
+
 class Sudoku:
     def __init__(self, filename):
         self.board_size = 0
+        self.filename = ""
         self.partition_size = 0
         self.vals = []
         self.empty_cells = []
@@ -15,6 +23,7 @@ class Sudoku:
     def read_file(self, filename):
         try:
             with open(filename, 'r') as file:
+                self.filename = filename
                 self.board_size = int(file.readline())
                 self.partition_size = int(math.sqrt(self.board_size))
                 print(f"Board size: {self.board_size}x{self.board_size}")
@@ -35,11 +44,15 @@ class Sudoku:
 
     def solve(self):
         solved = self.backtrack_solve()
+        newFileName = self.filename.replace(".txt", "Solution.txt")
 
         if not solved:
             print("No solution found")
+            writeSolutionToFile(newFileName, [[1]])
             return False
+
         print("\nOutput\n")
+        writeSolutionToFile(newFileName, self.vals)
         for row in self.vals:
             print(' '.join(f"{num:3d}" for num in row))
         return True
