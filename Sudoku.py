@@ -34,7 +34,6 @@ class Sudoku:
             sys.exit(1)
 
     def solve(self):
-        # TODO:  add solve logic here
         solved = self.backtrack_solve()
 
         if not solved:
@@ -45,14 +44,42 @@ class Sudoku:
             print(' '.join(f"{num:3d}" for num in row))
         return True
 
-    def backtrack_solve(self):
-        # Todo Implement algorithm here
-        self.board_size += 0
+    def backtrack_solve(self, index = 0):
+        if index == len(self.empty_cells):
+            return True
+        row, col = self.empty_cells[index]
+        for val in range(1, self.board_size + 1):
+            if self.isValid(val, row, col):
+                self.vals[row][col] = val
+                if self.backtrack_solve(index + 1):
+                    return True
+                else:
+                    self.vals[row][col] = 0
+
+
+
+        return False
+
+    def isValid(self, val, row, col):
+        for i in range(self.board_size):
+            if self.vals[row][i] == val or self.vals[i][col] == val:
+                return False
+            if self.sameSquare(val, row, col):
+                return False
+
         return True
 
+    def sameSquare(self, val, row, col):
+        rowStart = row - (row % self.partition_size)
+        colStart = col - (col % self.partition_size)
+        for r in range(rowStart, rowStart + self.partition_size):
+            for c in range(colStart, colStart + self.partition_size):
+                if self.vals[r][c] == val:
+                    return True
 
+        return False
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python sudoku.py <filename>")
+        print("Usage: python Sudoku.py <filename>")
         sys.exit(1)
     Sudoku(sys.argv[1])
