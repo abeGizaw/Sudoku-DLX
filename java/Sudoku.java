@@ -1,28 +1,29 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Sudoku {
 
     private static int boardSize = 0;
     private static int partitionSize = 0;
+    private static int[][] vals = null;
+    private static List<int[]> emptyCells = new ArrayList<>();
 
     public static void main(String[] args){
         String filename = args[0];
         File inputFile = new File(filename);
         Scanner input = null;
-        int[][] vals = null;
 
         int temp = 0;
         int count = 0;
 
         try {
             input = new Scanner(inputFile);
-            temp = input.nextInt();
-            boardSize = temp;
+            boardSize = input.nextInt();
             partitionSize = (int) Math.sqrt(boardSize);
-            System.out.println("Boardsize: " + temp + "x" + temp);
+            System.out.println("Boardsize: " + boardSize + "x" + boardSize);
             vals = new int[boardSize][boardSize];
 
             System.out.println("Input:");
@@ -34,7 +35,7 @@ public class Sudoku {
                 System.out.printf("%3d", temp);
                 vals[i][j] = temp;
                 if (temp == 0) {
-                    // TODO
+                    emptyCells.add(new int[] {i, j});
                 }
                 j++;
                 if (j == boardSize) {
@@ -53,7 +54,7 @@ public class Sudoku {
         if (count != boardSize*boardSize) throw new RuntimeException("Incorrect number of inputs.");
 
 
-        boolean solved = solve();
+        boolean solved = solve(0);
 
         // Output
         if (!solved) {
@@ -70,9 +71,46 @@ public class Sudoku {
 
     }
 
-    public static boolean solve(){
-        // TODO
+    public static boolean solve(int index) {
+        if (index == emptyCells.size()) {
+            return true;
+        }
+
+        int[] cell = emptyCells.get(index);
+        int row = cell[0];
+        int col = cell[1];
+
+        for (int num = 1; num <= boardSize; num++) {
+            if (isValid(num, row, col)) {
+                vals[row][col] = num;
+                if (solve(index + 1)) {
+                    return true;
+                }
+                vals[row][col] = 0; // Backtrack
+            }
+        }
+        return false;
+    }
+
+    public static boolean isValid(int val, int row, int col) {
+        for (int i = 0; i < boardSize; i++) {
+            if (vals[row][i] == val || vals[i][col] == val || sameSquare(val, row, col)) {
+                return false;
+            }
+        }
         return true;
     }
 
+    public static boolean sameSquare(int val, int row, int col) {
+        int rowStart = row - row % partitionSize;
+        int colStart = col - col % partitionSize;
+        for (int r = rowStart; r < rowStart + partitionSize; r++) {
+            for (int c = colStart; c < colStart + partitionSize; c++) {
+                if (vals[r][c] == val) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
