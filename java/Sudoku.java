@@ -9,7 +9,7 @@ public class Sudoku {
     private static int boardSize = 0;
     private static int partitionSize = 0;
     private static int[][] vals = null;
-    private static List<int[]> emptyCells = new ArrayList<>();
+    private static final List<int[]> emptyCells = new ArrayList<>();
 
     public static void main(String[] args){
         String filename = args[0];
