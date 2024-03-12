@@ -3,11 +3,14 @@
 ## Description
 This Sudoku Solver is a Python-based application that utilizes a backtracking algorithm to solve Sudoku puzzles. It's capable of solving 9x9 Sudoku puzzles efficiently 
 
+## Update to Desc  
+The code has since been enhanced and now incorporates the Dancing Links algorithm (DLX) based on [Donald E. Knuth's paper](https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/0011047.pdf). With this upgrade, not only has the computation for 9x9 Sudoku puzzles become faster, but it also extends the capability to tackle larger puzzles such as 16x16 and 25x25.
+
 ## Features
 - Reads Sudoku puzzles from a text file.
-- Solves puzzles using a backtracking algorithm.
-- Outputs solutions to text files or indicates if no solution exists.
-- Can handle different Sudoku grid sizes (up to 9x9 in the current implementation).
+- Implements both backtracking and DLX for versatile puzzle-solving strategies.
+- Efficiently solves 9x9 Sudoku puzzles and scales to handle 16x16 and 25x25 puzzles.
+- Reads puzzles from a text file and outputs solutions or indicates if no solution exists.  
 
 ## Input Format
 The program expects text files with the following format:
@@ -30,8 +33,16 @@ The first line is the size of the Sudoku grid, followed by the grid itself where
 The solution is output in the same format as the input, with the `0`'s replaced with the correct numbers. If no solution is found, `-1` is written to the output file.
 
 ## How It Works
-The solver uses a backtracking algorithm, which is a type of depth-first search, to try different number combinations until the solution is found or it's determined that no solution exists.
+The solver first attempts to use DLX for its efficiency in solving exact cover problems. For 9x9 puzzles, the performance gain is notable, and for larger puzzles, DLX is essential to make the solving process feasible within a reasonable timeframe.
 
+## Personal Note
+This is my first project that directly applies a complex data structure from a research paper. Learning and implementing DLX has been a challenging yet rewarding experience, deepening my understanding of algorithmic problem-solving.
+
+## Acknowledgments
+- Dancing Links Algorithm devised by [Donald E. Knuth](https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/0011047.pdf)
+- Google Code Archive. [Alex Rudnick's implementation in Python for getting ideas on how to implement some of the methods](https://code.google.com/archive/p/narorumo/wikis/SudokuDLX.wiki)
+- [Jonathan Chu's paper](http://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/sudoku.paper.html) for the pseudocode for the Dancing Links implementation
+  
 ## Limitations
-- Currently optimized for 9x9 Sudoku puzzles. Larger puzzles may require significant computational resources and time.
+- While DLX optimizes the process for larger puzzles, computational resources and time may vary based on puzzle complexity and system capabilities.
 
