@@ -1,8 +1,12 @@
 import sys
 import math
-import os
-from Node import DancingLinks
 
+
+def writeSolutionToFile(filename, sol):
+    with open(filename, 'w') as file:
+        for row in sol:
+            file.write(' '.join(f"{num:3d}" for num in row))
+            file.write('\n')
 
 
 class Sudoku:
@@ -29,10 +33,7 @@ class Sudoku:
                         raise RuntimeError(f"Incorrect Number of inputs.\n {row}")
                     for j, num in enumerate(row):
                         if num == 0:
-                            grid = (i // self.partition_size)*self.partition_size + (j + self.partition_size)//self.partition_size
-                            self.empty_cells.append((i + 1, j + 1, grid))
-
-
+                            self.empty_cells.append((i, j))
                     print(' '.join(f'{num:3d}' for num in row))  # Print each number in the row formatted to be 3 digits wide for alignment.
                     self.vals.append(row)  # represents the Sudoku board.
 
@@ -41,37 +42,50 @@ class Sudoku:
             sys.exit(1)
 
     def solve(self):
-        dlx = DancingLinks()
-        dlx.createEmptyMatrix(self.vals, self.empty_cells)
-        solved = dlx.search(0)
-        directory = "DLX_Sudoku_Solution"
-        new_file_name = self.filename.split('\\')[-1].replace(".txt", "Solution.txt")
+        solved = self.backtrack_solve()
+        newFileName = self.filename.replace(".txt", "Solution.txt")
 
         if not solved:
             print("No solution found")
-            self.writeSolutionToFile(new_file_name, [[-1]])
+            writeSolutionToFile(newFileName, [[1]])
             return False
 
         print("\nOutput\n")
-        self.vals = dlx.originalBoard
-
-        # Create directory if it doesn't exist
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        file_path = os.path.join(directory, new_file_name)
-
-        self.writeSolutionToFile(file_path, self.vals)
+        writeSolutionToFile(newFileName, self.vals)
         for row in self.vals:
             print(' '.join(f"{num:3d}" for num in row))
         return True
 
 
-    @staticmethod
-    def writeSolutionToFile(filename, sol):
-        with open(filename, 'w') as file:
-            for row in sol:
-                file.write(' '.join(f"{num:3d}" for num in row))
-                file.write('\n')
+    def backtrack_solve(self, index = 0):
+        if index == len(self.empty_cells):
+            return True
+        row, col = self.empty_cells[index]
+        for val in range(1, self.board_size + 1):
+            if self.isValid(val, row, col):
+                self.vals[row][col] = val
+                if self.backtrack_solve(index + 1):
+                    return True
+                else:
+                    self.vals[row][col] = 0
+        return False
+
+
+    def isValid(self, val, row, col):
+        for i in range(self.board_size):
+            if self.vals[row][i] == val or self.vals[i][col] == val or self.sameSquare(val, row, col):
+                return False
+        return True
+
+
+    def sameSquare(self, val, row, col):
+        rowStart = row - (row % self.partition_size)
+        colStart = col - (col % self.partition_size)
+        for r in range(rowStart, rowStart + self.partition_size):
+            for c in range(colStart, colStart + self.partition_size):
+                if self.vals[r][c] == val:
+                    return True
+        return False
 
 
 if __name__ == "__main__":
