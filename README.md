@@ -9,7 +9,7 @@ The code has since been enhanced and now incorporates the Dancing Links algorith
 ## Features
 - Reads Sudoku puzzles from a text file.
 - Implements both backtracking and DLX for versatile puzzle-solving strategies.
-- Efficiently solves 9x9 Sudoku puzzles and scales to handle 16x16 and 25x25 puzzles.
+- Efficiently solves 9x9 Sudoku puzzles and scales to handle 16x16, 25x25, and 36X36 puzzles.
 - Reads puzzles from a text file and outputs solutions or indicates if no solution exists.  
 
 ## Input Format
