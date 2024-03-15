@@ -43,6 +43,4 @@ This is my first project that directly applies a complex data structure from a r
 - Google Code Archive. [Alex Rudnick's implementation in Python for getting ideas on how to implement some of the methods](https://code.google.com/archive/p/narorumo/wikis/SudokuDLX.wiki)
 - [Jonathan Chu's paper](http://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/sudoku.paper.html) for the pseudocode for the Dancing Links implementation
   
-## Limitations
-- While DLX optimizes the process for larger puzzles, computational resources and time may vary based on puzzle complexity and system capabilities.
 
