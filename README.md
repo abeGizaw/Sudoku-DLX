@@ -1,10 +1,9 @@
 # Sudoku Solver
 
 ## Description
-This Sudoku Solver is a Python-based application that utilizes a backtracking algorithm to solve Sudoku puzzles. It's capable of solving 9x9 Sudoku puzzles efficiently 
-
-## Update to Desc  
-The code has since been enhanced and now incorporates the Dancing Links algorithm (DLX) based on [Donald E. Knuth's paper](https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/0011047.pdf). With this upgrade, not only has the computation for 9x9 Sudoku puzzles become faster, but it also extends the capability to tackle larger puzzles such as 16x16 and 25x25.
+This Sudoku Solver is a Python-based application that utilizes 2 different algorithimgs to solve Sudoku problems.  
+SudokuBackTracking.py uses a backtracking algorithm to solve Sudoku puzzles. It's capable of solving 9x9 Sudoku puzzles efficiently 
+Sudoku.py incorporates the Dancing Links algorithm (DLX) based on [Donald E. Knuth's paper](https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/0011047.pdf). With this upgrade, not only has the computation for 9x9 Sudoku puzzles become faster, but it also extends the capability to tackle larger puzzles such as 16x16, 25x25, and 36X36.
 
 ## Features
 - Reads Sudoku puzzles from a text file.
