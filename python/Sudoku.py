@@ -5,6 +5,7 @@ from Node import DancingLinks
 
 
 
+
 class Sudoku:
     def __init__(self, filename):
         self.board_size = 0
@@ -41,7 +42,10 @@ class Sudoku:
             sys.exit(1)
 
     def solve(self):
+
         dlx = DancingLinks()
+        valid = self.validate()
+        print(f"IS VALID: {valid}")
         dlx.createEmptyMatrix(self.vals, self.empty_cells)
         solved = dlx.search(0)
         directory = "DLX_Sudoku_Solution"
@@ -72,6 +76,32 @@ class Sudoku:
             for row in sol:
                 file.write(' '.join(f"{num:3d}" for num in row))
                 file.write('\n')
+
+    def validate(self):
+        for row in range(len(self.vals)):
+            for col in range(len(self.vals[0])):
+                if self.vals[row][col] != 0 and not self.isValid(self.vals[row][col], row, col):
+                    print(f"Saying {self.vals[row][col]} is not valid at {row, col}")
+                    return False
+        return True
+
+    def isValid(self, val, row, col):
+        for i in range(self.board_size):
+            if ((self.vals[row][i] == val and i != col) or
+                    (self.vals[i][col] == val and i != row) or
+                    self.sameSquare(val, row, col)):
+
+                return False
+        return True
+
+    def sameSquare(self, val, row, col):
+        rowStart = row - (row % self.partition_size)
+        colStart = col - (col % self.partition_size)
+        for r in range(rowStart, rowStart + self.partition_size):
+            for c in range(colStart, colStart + self.partition_size):
+                if self.vals[r][c] == val and row != r and col != c is False:
+                    return True
+        return False
 
 
 if __name__ == "__main__":
