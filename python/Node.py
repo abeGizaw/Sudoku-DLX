@@ -23,7 +23,7 @@ class ColumnNode(Node):
         self.col = None
         self.row = None
         self.val = None
-        # sys.setrecursionlimit(1500) for 36X36 Board 😅
+        sys.setrecursionlimit(1500) # for 36X36 Board 😅
 
 
 class DancingLinks:
@@ -144,10 +144,7 @@ class DancingLinks:
     def linkNodes(lisNodes):
         for i in range(len(lisNodes)):
             currNode = lisNodes[i]
-            if i == 0:
-                currNode.left = lisNodes[len(lisNodes) - 1]
-            else:
-                currNode.left = lisNodes[i - 1]
+            currNode.left = lisNodes[i - 1]
 
             if i == len(lisNodes) - 1:
                 currNode.right = lisNodes[0]
@@ -174,7 +171,7 @@ class DancingLinks:
             # print("Done processing")
             return True
 
-        # print("Searching")
+        print("Searching")
         currColumn = self.choose_min_column()
         self.cover(currColumn)
         colNode = currColumn.down
@@ -245,9 +242,7 @@ class DancingLinks:
             col = colInfo.col - 1
             value = rowInfo.val # Can be colInfo
 
-            # print(f'{rowInfo.name} {colInfo.name}')
-            # print(f'{rowInfo.row}{colInfo.col}{rowInfo.val}')
-            # print()
+
             self.originalBoard[row][col] = value
 
     @staticmethod
@@ -266,12 +261,13 @@ class DancingLinks:
     def choose_min_column(self):
         currentCol = self.header.right
         chosenColumn = currentCol
-        while currentCol != self.header:
+        while currentCol.right != self.header:
+            currentCol = currentCol.right
             if currentCol.size < chosenColumn.size:
                 chosenColumn = currentCol
                 if chosenColumn.size == 1:
                     return chosenColumn
-            currentCol = currentCol.right
+
 
         return chosenColumn
 

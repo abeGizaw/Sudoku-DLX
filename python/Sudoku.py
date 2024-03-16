@@ -3,6 +3,8 @@ import math
 import os
 from Node import DancingLinks
 
+# Save the original stdout so we can restore it later
+original_stdout = sys.stdout
 
 
 
@@ -42,10 +44,7 @@ class Sudoku:
             sys.exit(1)
 
     def solve(self):
-
         dlx = DancingLinks()
-        valid = self.validate()
-        print(f"IS VALID: {valid}")
         dlx.createEmptyMatrix(self.vals, self.empty_cells)
         solved = dlx.search(0)
         directory = "DLX_Sudoku_Solution"
@@ -78,6 +77,10 @@ class Sudoku:
                 file.write('\n')
 
     def validate(self):
+        """
+        Used to validate the initial state of the board. Used for debugging purposes
+        :return:
+        """
         for row in range(len(self.vals)):
             for col in range(len(self.vals[0])):
                 if self.vals[row][col] != 0 and not self.isValid(self.vals[row][col], row, col):
